@@ -10,7 +10,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dotnet 10
-- SDK - Updated DotNet SDK to 10.0.101
+- SDK - Updated DotNet SDK to 10.0.102
 ### Removed
 ### Deployment Changes
 
