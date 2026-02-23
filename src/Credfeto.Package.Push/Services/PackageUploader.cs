@@ -32,7 +32,6 @@ public sealed class PackageUploader : IPackageUploader
                 sleepDurationProvider: CalculateRetry,
                 onRetry: (exception, delay, retryCount, context) =>
                     this._logger.TransientException(
-                        typeName: exception.GetType().Name,
                         retryCount: retryCount,
                         maxRetries: MAX_RETRIES,
                         delay: delay,

@@ -37,7 +37,7 @@ internal static class PackageSearchExtensions
         ILogger logger
     )
     {
-        logger.LookingForSymbolsPackage($"Looking for Symbols Package: {expectedSymbol}");
+        logger.LookingForSymbolsPackage(expectedSymbol);
 
         string? symbolSource = symbolPackages.FirstOrDefault(x =>
             StringComparer.OrdinalIgnoreCase.Equals(x: x, y: expectedSymbol)
