@@ -29,6 +29,26 @@ internal static partial class PackageUploaderLoggingExtensions
         Exception exception
     );
 
+    public static  void TransientException(
+        this ILogger<PackageUploader> logger,
+        int retryCount,
+        int maxRetries,
+        in TimeSpan delay,
+        string details,
+        Exception exception)
+    {
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.TransientException(typeName: exception.GetType()
+                                                         .Name,
+                                      retryCount: retryCount,
+                                      maxRetries: maxRetries,
+                                      delay: delay,
+                                      details: details,
+                                      exception: exception);
+        }
+    }
+
     [LoggerMessage(
         EventId = 1,
         Level = LogLevel.Information,
