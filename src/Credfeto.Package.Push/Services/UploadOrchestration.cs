@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Credfeto.Package.Push.Constants;
 using Credfeto.Package.Push.Extensions;
+using Credfeto.Package.Push.Helpers;
 using Credfeto.Package.Push.Services.LoggingExtensions;
 using Microsoft.Extensions.Logging;
 using NuGet.Configuration;
@@ -285,7 +285,7 @@ public sealed class UploadOrchestration : IUploadOrchestration
         [
             .. packages
                 .Where(PackageNaming.IsNotSymbolPackage)
-                .OrderBy(MetaPackageLast)
+                .OrderBy(PackageOrdering.IsMetaPackage)
                 .ThenBy(keySelector: x => x, comparer: StringComparer.OrdinalIgnoreCase),
         ];
     }
@@ -296,77 +296,9 @@ public sealed class UploadOrchestration : IUploadOrchestration
         [
             .. packages
                 .Where(PackageNaming.IsSymbolPackage)
-                .OrderBy(MetaPackageLast)
+                .OrderBy(PackageOrdering.IsMetaPackage)
                 .ThenBy(keySelector: x => x, comparer: StringComparer.OrdinalIgnoreCase),
         ];
-    }
-
-#if NET9_0_OR_GREATER
-    private static bool MetaPackageLast(string packageId)
-    {
-        ReadOnlySpan<char> span = packageId.AsSpan();
-
-        Range? previousPart = null;
-        foreach (Range part in span.Split("."))
-        {
-            if (IsInteger(span[part]))
-            {
-                if (previousPart is null)
-                {
-                    break;
-                }
-
-                return IsMetaPackageAllTag(span[previousPart.Value]);
-            }
-
-            previousPart = part;
-        }
-
-        return false;
-    }
-#else
-    private static bool MetaPackageLast(string packageId)
-    {
-        string? previousPart = null;
-        foreach (string part in packageId.Split("."))
-        {
-            if (IsInteger(part))
-            {
-                if (previousPart is null)
-                {
-                    break;
-                }
-
-                return IsMetaPackageAllTag(previousPart);
-            }
-
-            previousPart = part;
-        }
-
-        return false;
-    }
-#endif
-
-    private static bool IsInteger(in ReadOnlySpan<char> part)
-    {
-        return int.TryParse(part, style: NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out _);
-    }
-
-    private static bool IsMetaPackageAllTag(in ReadOnlySpan<char> part)
-    {
-        return Check(part, "all")
-            || Check(part, "alL")
-            || Check(part, "aLl")
-            || Check(part, "aLL")
-            || Check(part, "All")
-            || Check(part, "AlL")
-            || Check(part, "ALl")
-            || Check(part, "ALL");
-
-        static bool Check(in ReadOnlySpan<char> lhs, in ReadOnlySpan<char> rhs)
-        {
-            return lhs.SequenceEqual(rhs);
-        }
     }
 
     private static SourceRepository ConfigureSourceRepository(string source)
