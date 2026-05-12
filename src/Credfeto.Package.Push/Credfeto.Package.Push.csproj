@@ -66,6 +66,9 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4" />
   </ItemGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="Credfeto.Package.Push.Tests" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Cocona" Version="2.2.0" />
     <PackageReference Include="Credfeto.Enumeration.Source.Generation.Attributes" Version="1.2.127.1366" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
