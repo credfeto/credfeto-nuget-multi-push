@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Security.Cryptography;
 
 namespace Credfeto.Package.Push.Helpers;
@@ -10,9 +10,17 @@ internal static class RetryDelayCalculator
     public static TimeSpan CalculateWithJitter(int attempts, int maxJitterSeconds)
     {
         // do a fast first retry, then exponential backoff
+        return CalculateDelay(attempts: attempts, maxJitterSeconds: maxJitterSeconds, randomFraction: GetRandom());
+    }
+
+    internal static TimeSpan CalculateDelay(int attempts, int maxJitterSeconds, double randomFraction)
+    {
         return attempts <= 1
             ? MinDelay
-            : MinDelay + TimeSpan.FromSeconds(WithJitter(CalculateBackoff(attempts), maxSeconds: maxJitterSeconds));
+            : MinDelay
+                + TimeSpan.FromSeconds(
+                    WithJitter(CalculateBackoff(attempts), maxSeconds: maxJitterSeconds, randomFraction: randomFraction)
+                );
     }
 
     private static double CalculateBackoff(int attempts)
@@ -20,7 +28,7 @@ internal static class RetryDelayCalculator
         return Math.Pow(x: 2, y: attempts);
     }
 
-    private static double WithJitter(double delaySeconds, int maxSeconds)
+    private static double WithJitter(double delaySeconds, int maxSeconds, double randomFraction)
     {
         double nonJitterPeriod = delaySeconds - maxSeconds;
         double jitterRange = maxSeconds * 2;
@@ -31,14 +39,9 @@ internal static class RetryDelayCalculator
             nonJitterPeriod = delaySeconds / 2;
         }
 
-        double jitter = CalculateJitterSeconds(jitterRange);
+        double jitter = jitterRange * randomFraction;
 
         return nonJitterPeriod + jitter;
-    }
-
-    private static double CalculateJitterSeconds(double jitterRange)
-    {
-        return jitterRange * GetRandom();
     }
 
     private static double GetRandom()
