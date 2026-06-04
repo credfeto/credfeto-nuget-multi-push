@@ -70,4 +70,12 @@ public sealed class RetryDelayCalculatorTests : TestBase
             );
         }
     }
+
+    [Fact]
+    public void CalculateWithJitterReturnsAtLeastMinDelay()
+    {
+        TimeSpan result = RetryDelayCalculator.CalculateWithJitter(attempts: 2, maxJitterSeconds: 10);
+
+        Assert.True(result >= MinDelay, $"CalculateWithJitter result {result} should be at least {MinDelay}");
+    }
 }

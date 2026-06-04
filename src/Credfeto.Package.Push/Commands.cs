@@ -20,7 +20,7 @@ namespace Credfeto.Package.Push;
     checkId: "CA1812:AvoidUninstantiatedInternalClasses",
     Justification = "Instantiated by Cocona"
 )]
-internal sealed class Commands
+public sealed class Commands
 {
     private readonly IUploadOrchestration _uploadOrchestration;
 

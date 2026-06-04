@@ -40,6 +40,7 @@
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <PackageTags>Nuget;push</PackageTags>
     <Product>Package Push Tool</Product>
+    <PublishAot>false</PublishAot>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/credfeto/credfeto-nuget-multi-push</RepositoryUrl>
     <RunAOTCompilation>false</RunAOTCompilation>
@@ -64,9 +65,6 @@
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-xhfc-gr8f-ffwc" />
     <!-- error NU1903: Warning As Error: Package 'System.Text.Json' 6.0.0 has a known high severity vulnerability -->
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4" />
-  </ItemGroup>
-  <ItemGroup>
-    <InternalsVisibleTo Include="Credfeto.Package.Push.Tests" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Cocona" Version="2.2.0" />

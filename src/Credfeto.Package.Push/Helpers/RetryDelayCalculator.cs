@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Credfeto.Package.Push.Helpers;
 
-internal static class RetryDelayCalculator
+public static class RetryDelayCalculator
 {
     private static readonly TimeSpan MinDelay = TimeSpan.FromSeconds(5);
 
@@ -13,7 +13,7 @@ internal static class RetryDelayCalculator
         return CalculateDelay(attempts: attempts, maxJitterSeconds: maxJitterSeconds, randomFraction: GetRandom());
     }
 
-    internal static TimeSpan CalculateDelay(int attempts, int maxJitterSeconds, double randomFraction)
+    public static TimeSpan CalculateDelay(int attempts, int maxJitterSeconds, double randomFraction)
     {
         return attempts <= 1
             ? MinDelay

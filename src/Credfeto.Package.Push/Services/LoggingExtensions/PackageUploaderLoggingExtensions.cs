@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using Microsoft.Extensions.Logging;
 
 namespace Credfeto.Package.Push.Services.LoggingExtensions;
 
-internal static partial class PackageUploaderLoggingExtensions
+public static partial class PackageUploaderLoggingExtensions
 {
     [LoggerMessage(EventId = 0, Level = LogLevel.Error, Message = "Failed to upload {package}: {type} {message}")]
     public static partial void FailedToUploadPackage(
@@ -29,23 +29,25 @@ internal static partial class PackageUploaderLoggingExtensions
         Exception exception
     );
 
-    public static  void TransientException(
+    public static void TransientException(
         this ILogger<PackageUploader> logger,
         int retryCount,
         int maxRetries,
         in TimeSpan delay,
         string details,
-        Exception exception)
+        Exception exception
+    )
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.TransientException(typeName: exception.GetType()
-                                                         .Name,
-                                      retryCount: retryCount,
-                                      maxRetries: maxRetries,
-                                      delay: delay,
-                                      details: details,
-                                      exception: exception);
+            logger.TransientException(
+                typeName: exception.GetType().Name,
+                retryCount: retryCount,
+                maxRetries: maxRetries,
+                delay: delay,
+                details: details,
+                exception: exception
+            );
         }
     }
 
