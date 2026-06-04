@@ -11,6 +11,7 @@ public static class ServiceConfiguration
     {
         return services
             .AddSingleton<ILogger, NugetForwardingLogger>()
+            .AddSingleton<IPackagePushGateway, NuGetPackagePushGateway>()
             .AddSingleton<IUploadOrchestration, UploadOrchestration>()
             .AddSingleton<IPackageUploader, PackageUploader>();
     }

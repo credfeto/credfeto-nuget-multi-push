@@ -30,6 +30,12 @@ public sealed class ServiceConfigurationTests : DependencyInjectionTestsBase
     }
 
     [Fact]
+    public void IPackagePushGatewayIsRegistered()
+    {
+        this.RequireService<IPackagePushGateway>();
+    }
+
+    [Fact]
     public void IUploadOrchestrationIsRegistered()
     {
         this.RequireService<IUploadOrchestration>();

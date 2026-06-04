@@ -81,7 +81,7 @@ public sealed class UploadOrchestration : IUploadOrchestration
     }
 
     [SuppressMessage("Meziantou.Analyzer", "MA0051: Method is too long", Justification = "Needs Review")]
-    private IEnumerable<Task<(string package, bool success)>> BuildUploadTasks(
+    public IEnumerable<Task<(string package, bool success)>> BuildUploadTasks(
         SourceRepository? symbolSourceRepository,
         SymbolPackageUpdateResourceV3? symbolPackageUpdateResource,
         PackageUpdateResource? symbolPackageUpdateResourceAsPackage,
