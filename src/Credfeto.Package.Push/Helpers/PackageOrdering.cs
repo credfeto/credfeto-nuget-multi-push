@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Credfeto.Package.Push.Helpers;
 
-internal static class PackageOrdering
+public static class PackageOrdering
 {
     public static bool IsMetaPackage(string packageId)
     {
@@ -53,7 +53,7 @@ internal static class PackageOrdering
         return int.TryParse(part, style: NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out _);
     }
 
-    internal static bool IsAllTag(in ReadOnlySpan<char> part)
+    public static bool IsAllTag(in ReadOnlySpan<char> part)
     {
         return part.Equals(other: "all", comparisonType: StringComparison.OrdinalIgnoreCase);
     }

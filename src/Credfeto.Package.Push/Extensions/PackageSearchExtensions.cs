@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Credfeto.Package.Push.Extensions;
 
-internal static class PackageSearchExtensions
+public static class PackageSearchExtensions
 {
     public static string? FindMatchingSymbolPackage(
         this IReadOnlyList<string> symbolPackages,

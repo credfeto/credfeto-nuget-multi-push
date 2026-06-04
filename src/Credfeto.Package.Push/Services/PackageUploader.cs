@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using NuGet.Protocol.Core.Types;
 using Polly;
 using Polly.Retry;
-using ILogger = NuGet.Common.ILogger;
 
 namespace Credfeto.Package.Push.Services;
 
@@ -18,12 +17,12 @@ public sealed class PackageUploader : IPackageUploader
 {
     private const int MAX_RETRIES = 5;
     private readonly ILogger<PackageUploader> _logger;
-    private readonly ILogger _nugetLogger;
+    private readonly IPackagePushGateway _packagePushGateway;
     private readonly AsyncRetryPolicy _retryPolicy;
 
-    public PackageUploader(ILogger nugetLogger, ILogger<PackageUploader> logger)
+    public PackageUploader(IPackagePushGateway packagePushGateway, ILogger<PackageUploader> logger)
     {
-        this._nugetLogger = nugetLogger;
+        this._packagePushGateway = packagePushGateway;
         this._logger = logger;
         this._retryPolicy = Policy
             .Handle((Func<Exception, bool>)IsTransientException)
@@ -105,17 +104,12 @@ public sealed class PackageUploader : IPackageUploader
             this._logger.UploadingPackage(filename: filename, attempt: attempt, maxRetries: MAX_RETRIES);
         }
 
-        return packageUpdateResource.Push(
+        return this._packagePushGateway.PushAsync(
+            packageUpdateResource: packageUpdateResource,
             packagePaths: packagePaths,
             symbolSource: symbolSource,
-            timeoutInSecond: 800,
-            disableBuffering: false,
-            getApiKey: _ => apiKey,
-            getSymbolApiKey: _ => apiKey,
-            noServiceEndpoint: false,
-            skipDuplicate: true,
-            symbolPackageUpdateResource: symbolPackageUpdateResource,
-            log: this._nugetLogger
+            apiKey: apiKey,
+            symbolPackageUpdateResource: symbolPackageUpdateResource
         );
     }
 

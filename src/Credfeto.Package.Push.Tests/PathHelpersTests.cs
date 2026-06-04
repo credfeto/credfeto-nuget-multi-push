@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using Credfeto.Package.Push.Helpers;
 using FunFair.Test.Common;
 using Xunit;
@@ -25,5 +25,23 @@ public sealed class PathHelpersTests : TestBase
         {
             Assert.Equal("root/folder/file.nupkg", PathHelpers.ConvertToNative("root\\folder\\file.nupkg"));
         }
+    }
+
+    [Fact]
+    public void ConvertToNativeWithWindowsSeparatorReplacesForwardSlashes()
+    {
+        Assert.Equal(
+            "root\\folder\\file.nupkg",
+            PathHelpers.ConvertToNative(path: "root/folder/file.nupkg", nativeSeparator: '\\')
+        );
+    }
+
+    [Fact]
+    public void ConvertToNativeWithUnixSeparatorReplacesBackslashes()
+    {
+        Assert.Equal(
+            "root/folder/file.nupkg",
+            PathHelpers.ConvertToNative(path: "root\\folder\\file.nupkg", nativeSeparator: '/')
+        );
     }
 }

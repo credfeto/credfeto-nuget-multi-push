@@ -11,7 +11,7 @@ namespace Credfeto.Package.Push;
 
 internal static class Program
 {
-    private static async Task<int> Main(string[] args)
+    internal static async Task<int> Main(string[] args)
     {
         Console.WriteLine($"{VersionInformation.Product} {VersionInformation.Version}");
 
