@@ -11,9 +11,9 @@
 "Config Change":
  - any: [ 'src/**/*.json', '!src/global.json' ]
 "credfeto-package-push":
- - any: [ 'src/$Credfeto.Package.Push/**/*' ]
+ - any: [ 'src/Credfeto.Package.Push/**/*' ]
 "credfeto-package-push-tests":
- - any: [ 'src/$Credfeto.Package.Push.Tests/**/*' ]
+ - any: [ 'src/Credfeto.Package.Push.Tests/**/*' ]
 "dotnet":
  - any: [ 'src/**/*.csproj' ]
 "Editorconfig":
