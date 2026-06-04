@@ -2,15 +2,20 @@ using System.IO;
 
 namespace Credfeto.Package.Push.Helpers;
 
-internal static class PathHelpers
+public static class PathHelpers
 {
     public static string ConvertToNative(string path)
     {
-        if (Path.DirectorySeparatorChar == '\\')
+        return ConvertToNative(path: path, nativeSeparator: Path.DirectorySeparatorChar);
+    }
+
+    public static string ConvertToNative(string path, char nativeSeparator)
+    {
+        if (nativeSeparator == '\\')
         {
-            return path.Replace(oldChar: '/', newChar: Path.DirectorySeparatorChar);
+            return path.Replace(oldChar: '/', newChar: nativeSeparator);
         }
 
-        return path.Replace(oldChar: '\\', newChar: Path.DirectorySeparatorChar);
+        return path.Replace(oldChar: '\\', newChar: nativeSeparator);
     }
 }

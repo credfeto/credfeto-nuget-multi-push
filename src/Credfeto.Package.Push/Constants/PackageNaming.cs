@@ -2,7 +2,7 @@ using System;
 
 namespace Credfeto.Package.Push.Constants;
 
-internal static class PackageNaming
+public static class PackageNaming
 {
     public const string PackageExtension = ".nupkg";
     public const string SymbolsOldPackageExtension = ".symbols" + PackageExtension;

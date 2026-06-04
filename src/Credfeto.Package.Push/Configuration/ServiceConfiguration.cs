@@ -5,7 +5,7 @@ using ILogger = NuGet.Common.ILogger;
 
 namespace Credfeto.Package.Push.Configuration;
 
-internal static class ServiceConfiguration
+public static class ServiceConfiguration
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
