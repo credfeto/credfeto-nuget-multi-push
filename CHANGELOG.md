@@ -9,6 +9,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Security
 ### Added
 - Added unit tests for PackageNaming, PathHelpers, RetryDelayCalculator and PackageOrdering; refactored UploadOrchestration to extract PackageOrdering helper and added internal deterministic overload to RetryDelayCalculator
+- Increased unit test coverage for Credfeto.Package.Push to 100%
 ### Fixed
 ### Changed
 - Dotnet 10
