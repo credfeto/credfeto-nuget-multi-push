@@ -29,10 +29,33 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'dependencies')
     steps:
       - name: "Auto Merge"
-        uses: ./.github/actions/enable-automerge
+        uses: actions/github-script@v9.0.0
         with:
           github-token: ${{secrets.SOURCE_PUSH_TOKEN}}
-          merge-method: "MERGE"
+          script: |
+            const mergeMethod = process.env.MERGE_METHOD;
+            const nodeId = context.payload.pull_request.node_id;
+            await github.graphql(`
+              mutation EnableAutoMerge($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
+                enablePullRequestAutoMerge(input: {
+                  pullRequestId: $pullRequestId,
+                  mergeMethod: $mergeMethod
+                }) {
+                  pullRequest {
+                    autoMergeRequest {
+                      mergeMethod
+                    }
+                  }
+                }
+              }
+            `, {
+              pullRequestId: nodeId,
+              mergeMethod: mergeMethod,
+            });
+            core.info(`✅ Enabled auto-merge (${mergeMethod}) on PR #${context.payload.pull_request.number}`);
+            core.notice(`Enabled auto-merge (${mergeMethod}) on PR #${context.payload.pull_request.number}`);
+        env:
+          MERGE_METHOD: "MERGE"
 
   auto_approve_dependabot:
     runs-on: ubuntu-latest
@@ -44,6 +67,15 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'dependencies')
     steps:
       - name: "Auto Approve"
-        uses: ./.github/actions/approve-pr
+        uses: actions/github-script@v9.0.0
         with:
           github-token: ${{secrets.SOURCE_PUSH_TOKEN}}
+          script: |
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE',
+            });
+            core.info(`✅ Approved PR #${context.payload.pull_request.number}`);
+            core.notice(`Approved PR #${context.payload.pull_request.number}`);
