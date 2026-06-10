@@ -11,6 +11,7 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 - Added unit tests for PackageNaming, PathHelpers, RetryDelayCalculator and PackageOrdering; refactored UploadOrchestration to extract PackageOrdering helper and added internal deterministic overload to RetryDelayCalculator
 - Increased unit test coverage for Credfeto.Package.Push with IPackagePushGateway abstraction enabling full PackageUploader and UploadOrchestration routing coverage
 ### Fixed
+- Fixed auto-approve and enable-auto-merge CI jobs for dependency PRs by inlining composite action logic in on_new_pr.yml to work around pull_request_target path resolution limitations
 ### Changed
 - Dotnet 10
 - SDK - Updated DotNet SDK to 10.0.300
