@@ -1,9 +1,6 @@
 ﻿# Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 <!--
 Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 -->
@@ -1253,7 +1250,7 @@ Releases that have at least been deployed to staging, BUT NOT necessarily releas
 - FF-1429 - Updated SonarAnalyzer.CSharp to 8.15.0.24505
 - FF-1429 - Updated SonarAnalyzer.CSharp to 8.16.0.25740
 
-## [1.1.0] - 2020-11-20
+## [1.1.0] 2020-11-20
 ### Changed
 - FF-1429 - Updated Microsoft.Extensions to 5.0.0
 - FF-1429 - Updated Microsoft.VisualStudio.Threading.Analyzers to 16.8.55
@@ -1261,11 +1258,11 @@ Releases that have at least been deployed to staging, BUT NOT necessarily releas
 - FF-1429 - Updated Microsoft.VisualStudio.Threading.Analyzers to 16.8.51
 - Updated to .NET 5.0
 
-## [1.0.1] - 2020-10-26
+## [1.0.1] 2020-10-26
 ### Changed
 - Build process
 
-## [1.0.0] - 2020-10-24
+## [1.0.0] 2020-10-24
 ### Changed
 - Initial version
 
