@@ -13,8 +13,8 @@ Please ADD ALL Changes to the UNRELEASED SECTION and not a specific release
 ### Fixed
 ### Changed
 - Dotnet 10
-- SDK - Updated DotNet SDK to 10.0.302
 - Drop net9.0 support; target net10.0 only
+- SDK - Updated DotNet SDK to 10.0.400
 ### Deprecated
 ### Removed
 ### Deployment Changes
