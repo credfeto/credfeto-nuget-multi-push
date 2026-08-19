@@ -11,6 +11,8 @@ in the folder one at a time.
 
 ``dotnet pushpackages --folder c:\packages --api-key API-KEY --source https://feed-push-url/``
 
+The `--api-key`/`-a` option may be omitted, in which case the `NUGET_API_KEY` environment variable is used instead. This avoids putting the secret on the command line, where it could be exposed in logged command-line output or process listings. If neither the flag nor the environment variable is set, the tool exits with a configuration error. When both are set, the `--api-key` flag takes precedence.
+
 ## Build Status
 
 | Branch  | Status                                                                                                                                                                                                                                |
