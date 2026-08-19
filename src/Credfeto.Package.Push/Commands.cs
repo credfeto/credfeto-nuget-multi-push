@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cocona;
+using Credfeto.Package.Push.Constants;
 using Credfeto.Package.Push.Exceptions;
 
 namespace Credfeto.Package.Push;
@@ -35,7 +36,12 @@ public sealed class Commands
     public async Task UploadPackagesAsync(
         [Option(name: "source", ['s'], Description = "NuGet Feed to upload packages to")] string source,
         [Option(name: "folder", ['f'], Description = "Folder containing packages to upload")] string folder,
-        [Option(name: "api-key", ['a'], Description = "Api Key for uploading packages")] string apiKey,
+        [Option(
+            name: "api-key",
+            ['a'],
+            Description = "Api Key for uploading packages (falls back to the NUGET_API_KEY environment variable if omitted)"
+        )]
+            string? apiKey,
         [Option("symbol-source", Description = "NuGet Feed to upload symbol packages to")] string? symbolSource
     )
     {
@@ -50,11 +56,30 @@ public sealed class Commands
             source: source,
             symbolSource: symbolSource,
             packages: packages,
-            apiKey: apiKey,
+            apiKey: ResolveApiKey(apiKey),
             cancellationToken: CancellationToken.None
         );
 
         ProduceSummary(results: results);
+    }
+
+    private static string ResolveApiKey(string? apiKey)
+    {
+        if (!string.IsNullOrWhiteSpace(apiKey))
+        {
+            return apiKey;
+        }
+
+        string? environmentApiKey = Environment.GetEnvironmentVariable(EnvironmentVariables.NugetApiKey);
+
+        if (!string.IsNullOrWhiteSpace(environmentApiKey))
+        {
+            return environmentApiKey;
+        }
+
+        throw new UploadConfigurationErrorsException(
+            $"Api Key must be specified using --api-key or the {EnvironmentVariables.NugetApiKey} environment variable"
+        );
     }
 
     private static void ProduceSummary(IReadOnlyList<(string package, bool success)> results)
